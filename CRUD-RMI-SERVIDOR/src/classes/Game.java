@@ -2,6 +2,7 @@
 package classes;
 
 import Interfaces.InterfaceGame;
+import dao.GameDAO;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -45,6 +46,11 @@ public class Game extends UnicastRemoteObject implements InterfaceGame{
         this.Genero = Genero;
     }
     
+
+    @Override
+    public void adicionarGame(){
+      GameDAO.insert(this);
+    }
     
 }
 

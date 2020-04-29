@@ -48,7 +48,7 @@ public class AdicionarProduto extends JPanel implements ActionListener {
         int quantidade = Integer.parseInt(campo_quantidade.getText());
 
         try {
-            InterfaceProduto produtoRemoto = (InterfaceProduto) Naming.lookup("rmi://192.168.1.130:1099/Produto");
+            InterfaceProduto produtoRemoto = (InterfaceProduto) Naming.lookup("rmi://192.168.1.106:1099/Produto");
 
             produtoRemoto.setDescricao(descricao);
             produtoRemoto.setPreco(preco);

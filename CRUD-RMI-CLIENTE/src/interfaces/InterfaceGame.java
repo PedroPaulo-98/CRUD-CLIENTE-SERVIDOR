@@ -12,5 +12,6 @@ public interface InterfaceGame extends Remote{
     public void setDeveloper(String Developer) throws RemoteException;
     public String getGenero()  throws RemoteException;
     public void setGenero(String Genero) throws RemoteException;
+    public void adicionarGame() throws RemoteException;
     
 }

@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 
 public class ProdutoDAO {
     public static void insert(Produto produto){
-        String sql = "INSERT INTO produto (descricao, preco, quantidade) values(?,?,?)";
+        String sql = "INSERT INTO produto (descricao, valor, quantidade) values(?,?,?)";
         
         try{
             Connection conexao = ConexaoDB.retornaConexao();

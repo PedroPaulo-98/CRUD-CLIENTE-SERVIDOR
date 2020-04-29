@@ -14,6 +14,6 @@ public interface InterfaceCarro extends Remote{
     public void setAno(int Ano)throws RemoteException;
     public String getPlaca() throws RemoteException;
     public void setPlaca(String Placa) throws RemoteException;
-    
+    public void adicionarCarro() throws RemoteException;
 }
 
