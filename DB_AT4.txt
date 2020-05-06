@@ -1,0 +1,39 @@
+create database crud_rmi;
+show databases;
+use crud_rmi;
+
+create table produto (
+    id int(11) primary key auto_increment not null,
+    descricao varchar(255) null,
+    preco double(11,2) null,
+    quantidade int(11) null
+);
+
+create table Aluno (
+    id int(11) primary key auto_increment not null,
+    nome varchar(255) null,
+    matricula int(11) null,
+    media double(11,2) null
+);
+
+create table Cardapio (
+    id int(11) primary key auto_increment not null,
+    prato varchar(255) null,
+    preco double(11,2) null,
+    porcoes int(11) null
+
+);
+
+create table Carro (
+    id int(11) primary key auto_increment not null,
+    modelo varchar(255) null,
+    ano int(11) null,
+    nota double(11,2) null 
+);
+
+create table Game (
+    id int(11) primary key auto_increment not null,
+    nome varchar(255) null,
+    ano int(11) null,
+    nota double(11,2) null
+);
