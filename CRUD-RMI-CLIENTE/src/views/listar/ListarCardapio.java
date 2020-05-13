@@ -1,45 +1,43 @@
 package views.listar;
 
 import interfaces.InterfaceCardapio;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import static principal.Consts.IP_SERVIDOR;
-import static principal.Consts.PORTA_SERVIDOR;
 
-public class ListarCardapio extends JPanel implements ActionListener {
+public class ListarCardapio extends Listar<InterfaceCardapio> {
 
-    private final JTable tabela = new JTable();
-    private JScrollPane barraRolagem;
-    private DefaultTableModel model;
+    private final String[] colunas = {"Id", "Prato", "Preço", "Porções"};
 
-    public ListarCardapio(JButton botaoListar) {
-        botaoListar.addActionListener(this);
+    public ListarCardapio(JButton botaoListar, JButton botaoExcluir) {
         init();
+
+        botaoListar.addActionListener((ActionEvent ae) -> init());
+
+        botaoExcluir.addActionListener((ActionEvent ae) -> excluir());
     }
 
-    void init() {
-        model = new DefaultTableModel(new String[][]{},
-                new String[]{"Prato", "Preço", "Porções"});
+    public void init() {
+
         removeAll();
-        revalidate();
+
+        ArrayList<InterfaceCardapio> dados = dados("Cardapio");
+
+        ArrayList<Object[]> linhas = new ArrayList<>();
+
         try {
-            InterfaceCardapio cardapioRemoto = (InterfaceCardapio) Naming.lookup("rmi://" + IP_SERVIDOR + ":" + PORTA_SERVIDOR + "/Cardapio");
 
-            ArrayList<InterfaceCardapio> cardapios = cardapioRemoto.listar();
-
-            for (InterfaceCardapio c : cardapios) {
-                model.addRow(new Object[]{c.getPrato(), c.getPreco(),
-                    c.getPorcoes()});
+            for (InterfaceCardapio d : dados) {
+                linhas.add(new Object[]{
+                    d.getId(),
+                    d.getPrato(),
+                    d.getPreco(),
+                    d.getPorcoes()
+                });
             }
+
+            add(tabela(colunas, linhas));
 
         } catch (RemoteException re) {
             System.err.println("Erro remoto: " + re.toString());
@@ -47,21 +45,7 @@ public class ListarCardapio extends JPanel implements ActionListener {
             System.err.println("Erro local: " + e.toString());
         }
 
-        tabela.setModel(model);
-
-        tabela.getColumnModel().getColumn(0).setPreferredWidth(100);
-        tabela.getColumnModel().getColumn(1).setPreferredWidth(50);
-        tabela.getColumnModel().getColumn(2).setPreferredWidth(50);
-
-        barraRolagem = new JScrollPane(tabela);
-        barraRolagem.setPreferredSize(new Dimension(300, 150));
-        add(barraRolagem);
         repaint();
         validate();
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        init();
     }
 }

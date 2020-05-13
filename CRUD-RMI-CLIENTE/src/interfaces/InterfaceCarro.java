@@ -1,18 +1,19 @@
+package interfaces;
 
-package Interfaces;
-
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface InterfaceCarro extends Remote{
-    
+public interface InterfaceCarro extends InterfaceGlobal<InterfaceCarro> {
+
     public String getModelo() throws RemoteException;
-    public void setModelo(String Modelo) throws RemoteException;
-    public String getMarca() throws RemoteException;
-    public void setMarca(String Marca)throws RemoteException;
-    public int getAno()throws RemoteException;
-    public void setAno(int Ano)throws RemoteException;
-    public String getPlaca() throws RemoteException;
-    public void setPlaca(String Placa) throws RemoteException;
-    public void adicionarCarro() throws RemoteException;
+
+    public void setModelo(String modelo) throws RemoteException;
+
+    public int getAno() throws RemoteException;
+
+    public void setAno(int ano) throws RemoteException;
+
+    public double getNota() throws RemoteException;
+
+    public void setNota(double nota) throws RemoteException;
+
 }

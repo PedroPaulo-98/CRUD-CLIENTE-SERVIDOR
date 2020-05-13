@@ -1,46 +1,43 @@
 package views.listar;
 
 import interfaces.InterfaceCarro;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import static principal.Consts.IP_SERVIDOR;
-import static principal.Consts.PORTA_SERVIDOR;
 
-public class ListarCarro extends JPanel implements ActionListener {
+public class ListarCarro extends Listar<InterfaceCarro> {
 
-    private final JTable tabela = new JTable();
-    private JScrollPane barraRolagem;
-    private DefaultTableModel model;
+    private final String[] colunas = {"Id", "Modelo", "Ano", "Nota"};
 
-    public ListarCarro(JButton botaoListar) {
-        botaoListar.addActionListener(this);
+    public ListarCarro(JButton botaoListar, JButton botaoExcluir) {
         init();
 
+        botaoListar.addActionListener((ActionEvent ae) -> init());
+
+        botaoExcluir.addActionListener((ActionEvent ae) -> excluir());
     }
 
-    void init() {
-        model = new DefaultTableModel(new String[][]{},
-                new String[]{"Modelo", "Ano", "Nota"});
+    public void init() {
+
         removeAll();
-        revalidate();
+
+        ArrayList<InterfaceCarro> dados = dados("Carro");
+
+        ArrayList<Object[]> linhas = new ArrayList<>();
+
         try {
-            InterfaceCarro carroRemoto = (InterfaceCarro) Naming.lookup("rmi://" + IP_SERVIDOR + ":" + PORTA_SERVIDOR + "/Carro");
 
-            ArrayList<InterfaceCarro> carros = carroRemoto.listar();
-
-            for (InterfaceCarro c : carros) {
-                model.addRow(new Object[]{c.getModelo(), c.getAno(),
-                    c.getNota()});
+            for (InterfaceCarro d : dados) {
+                linhas.add(new Object[]{
+                    d.getId(),
+                    d.getModelo(),
+                    d.getAno(),
+                    d.getNota()
+                });
             }
+
+            add(tabela(colunas, linhas));
 
         } catch (RemoteException re) {
             System.err.println("Erro remoto: " + re.toString());
@@ -48,23 +45,8 @@ public class ListarCarro extends JPanel implements ActionListener {
             System.err.println("Erro local: " + e.toString());
         }
 
-        tabela.setModel(model);
-
-        tabela.getColumnModel().getColumn(0).setPreferredWidth(100);
-        tabela.getColumnModel().getColumn(1).setPreferredWidth(50);
-        tabela.getColumnModel().getColumn(2).setPreferredWidth(50);
-
-        barraRolagem = new JScrollPane(tabela);
-        barraRolagem.setPreferredSize(new Dimension(300, 150));
-        add(barraRolagem);
         repaint();
         validate();
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        init();
     }
 
 }

@@ -54,7 +54,6 @@ public class AdicionarProduto extends JPanel implements ActionListener {
             produtoRemoto.setDescricao(descricao);
             produtoRemoto.setPreco(preco);
             produtoRemoto.setQuantidade(quantidade);
-
             produtoRemoto.adicionar();
 
             String texto_retorno = "\nDescrição: " + produtoRemoto.getDescricao() + "\nPreço: "
